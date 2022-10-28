@@ -17,8 +17,8 @@
         "rxjs": "^7.1.0"
     },
     "scripts": {
-        "start": "echo \"implement me\"",
-        "build": "echo \"implement me\"",
+        "start": "webpack serve",
+        "build": "webpack",
         "test": "echo \"implement me\"",
         "lint:js": "echo \"implement me\"",
         "lint:css": "echo \"implement me\"",

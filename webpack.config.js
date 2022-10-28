@@ -3,9 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StatoscopePlugin = require('@statoscope/webpack-plugin').default;
 
 const config = {
+    target: 'node',
+    mode: 'development',
     entry: {
-        about: './src/pages/About.js',
-        home: './src/pages/Home.js',
+        // about: './src/pages/About.js',
+        // home: './src/pages/Home.js',
+        entry: './src/index.js'
+        // entry: './src/Application.js'
     },
     plugins: [
         new HtmlWebpackPlugin(),
@@ -13,7 +17,7 @@ const config = {
             saveStatsTo: 'stats.json',
             saveOnlyStats: false,
             open: false,
-        }),
+        })
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -21,15 +25,27 @@ const config = {
     },
     module: {
         rules: [
-            // @TODO js rule
-            // @TODO css rule
+            { // JavaScript rule
+                test: /\.(js|jsx)/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react']
+                    }
+                }
+            },
+            { // CSS rule
+                test: /\.css/,
+                use: ['style-loader', 'css-loader']
+            }
         ],
     },
-    // @TODO optimizations
-    // @TODO lodash treeshaking
-    // @TODO chunk for lodash
-    // @TODO chunk for runtime
-    // @TODO fallback for crypto
+    // TODO: optimizations
+    // TODO: lodash treeshaking
+    // TODO: chunk for lodash
+    // TODO: chunk for runtime
+    // TODO: fallback for crypto
 };
 
 module.exports = config;
