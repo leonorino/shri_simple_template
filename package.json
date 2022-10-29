@@ -21,8 +21,8 @@
         "start": "webpack serve",
         "build": "webpack",
         "test": "echo \"implement me\"",
-        "lint:js": "echo \"implement me\"",
-        "lint:css": "echo \"implement me\"",
+        "lint:js": "eslint src/**",
+        "lint:css": "stylelint src/*.css",
         "analyze": "echo \"implement me\"",
         "validate": "node_modules/.bin/statoscope validate -i stats.json --config=./statoscope.config.js"
     },
