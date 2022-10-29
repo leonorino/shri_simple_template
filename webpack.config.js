@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StatoscopePlugin = require('@statoscope/webpack-plugin').default;
+const ESLintPlugin = require('eslint-webpack-plugin');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const config = {
     target: 'node',
@@ -17,7 +19,9 @@ const config = {
             saveStatsTo: 'stats.json',
             saveOnlyStats: false,
             open: false,
-        })
+        }),
+        new ESLintPlugin(), // Linter plugin
+        new StylelintPlugin()
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),
