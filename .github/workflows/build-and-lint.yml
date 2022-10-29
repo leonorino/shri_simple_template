@@ -1,6 +1,6 @@
 name: Build and Lint
 
-on: [workflow_dispatch]
+on: [pull_request, workflow_dispatch]
 
 jobs:
   buildAndLint:
@@ -9,9 +9,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
-      with:
-        node-version: 18
-    - run: npm install
-    - run: npm run build
-    - run: npm run lint:js
-    - run: npm run lint:css
+    - name: Install dependencies
+      run: npm install
+    - name: Build application
+      run: npm run build
+    - name: Run linters
+      run: |
+        npm run lint:js
+        npm run lint:css
