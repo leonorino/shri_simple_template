@@ -6,10 +6,9 @@ const config = {
     target: 'node',
     mode: 'development',
     entry: {
-        // about: './src/pages/About.js',
-        // home: './src/pages/Home.js',
-        entry: './src/index.js'
-        // entry: './src/Application.js'
+        main: {
+            import: './src/index.js'
+        }
     },
     plugins: [
         new HtmlWebpackPlugin(),

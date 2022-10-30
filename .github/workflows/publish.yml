@@ -13,5 +13,9 @@ jobs:
       run: npm install --force
     - name: Build application
       run: npm run build
-    - name: Publish to Github Pages
-      run: npx gh-pages -d dist -u "${GITHUB_ACTOR} <${GITHUB_ACTOR}@users.noreply.github.com>"
+    - name: Deploy with gh-pages
+      run: |
+        git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        npx gh-pages -d dist -u "github-actions-bot <support+actions@github.com>"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
