@@ -14,4 +14,4 @@ jobs:
     - name: Build application
       run: npm run build
     - name: Publish to Github Pages
-      run: npx gh-pages -d dist -u "${GITHUB_ACTOR} ${GITHUB_ACTOR}@users.noreply.github.com"
+      run: npx gh-pages -d dist -u "${GITHUB_ACTOR} <${GITHUB_ACTOR}@users.noreply.github.com>"
