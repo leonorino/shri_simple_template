@@ -3,8 +3,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StatoscopePlugin = require('@statoscope/webpack-plugin').default;
 
 const config = {
-    target: 'node',
-    mode: 'development',
+    devServer: {
+        hot: true,
+        port: 9000
+    },
+    resolve: {
+        fallback: {
+            'stream': require.resolve('stream-browserify'),
+            'crypto': require.resolve('crypto-browserify')
+        }
+    },
     entry: {
         main: {
             import: './src/index.js'
@@ -17,8 +25,6 @@ const config = {
             saveOnlyStats: false,
             open: false,
         }),
-        // new ESLintPlugin(), // Linter plugin
-        // new StylelintPlugin() // Stylelint plugin
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),
