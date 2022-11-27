@@ -1,58 +1,69 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StatoscopePlugin = require('@statoscope/webpack-plugin').default;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = {
-    devServer: {
-        hot: true,
-        port: 9000
-    },
-    resolve: {
-        fallback: {
-            'stream': require.resolve('stream-browserify'),
-            'crypto': require.resolve('crypto-browserify')
+  entry: './src/index.js',
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html'
+    }),
+    new StatoscopePlugin({
+      saveStatsTo: 'stats.json',
+      saveOnlyStats: false,
+      open: false,
+    }),
+    new MiniCssExtractPlugin(),
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    port: 9000,
+    open: true,
+  },
+  devtool: process.env.NODE_ENV === 'production' ? 'cheap-source-map' : 'inline-source-map',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].js',
+  },
+  module: {
+    rules: [
+      { // JavaScript and JSX Babel loader
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', ['@babel/preset-react', { runtime: 'automatic' }]],
+            plugins: ['lodash']
+          }
         }
-    },
-    entry: {
-        main: {
-            import: './src/index.js'
-        }
-    },
-    plugins: [
-        new HtmlWebpackPlugin(),
-        new StatoscopePlugin({
-            saveStatsTo: 'stats.json',
-            saveOnlyStats: false,
-            open: false,
-        }),
+      },
+      { // CSS loaders
+        test: /\.css/,
+        // exclude: /node_modules/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader',]
+      }
     ],
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: '[name].[contenthash].js',
+  },
+  resolve: {
+    fallback: { // Node polyfills for crypto and stream
+      'crypto': require.resolve('crypto-browserify'),
+      'stream': false,
+      'buffer': require.resolve('buffer'),
+    }
+  },
+  optimization: {
+    minimize: true, 
+    concatenateModules: true,
+    moduleIds: 'deterministic',
+    runtimeChunk: 'single',
+    splitChunks: {
+      minChunks: 2,
+      chunks: 'all',
+      minSize: 0
     },
-    module: {
-        rules: [
-            { // JavaScript rule
-                test: /\.(js|jsx)/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react']
-                    }
-                }
-            },
-            { // CSS rule
-                test: /\.css/,
-                use: ['style-loader', 'css-loader']
-            }
-        ],
-    },
-    // TODO: optimizations
-    // TODO: lodash treeshaking
-    // TODO: chunk for lodash
-    // TODO: chunk for runtime
-    // TODO: fallback for crypto
+  }
 };
 
 module.exports = config;

@@ -4,6 +4,7 @@
     "homepage": ".",
     "private": true,
     "dependencies": {
+        "babel-plugin-lodash": "^3.3.4",
         "crypto-browserify": "^3.12.0",
         "lodash": "^4.17.21",
         "react": "^17.0.2",
@@ -22,7 +23,7 @@
         "build": "webpack --mode=production",
         "lint:js": "eslint src/**",
         "lint:css": "stylelint src/*.css",
-        "analyze": "statoscope serve stats.json",
+        "analyze": "node_modules/.bin/statoscope serve -i stats.json",
         "validate": "node_modules/.bin/statoscope validate -i stats.json --config=./statoscope.config.js",
         "deploy": "gh-pages -d dist"
     },
